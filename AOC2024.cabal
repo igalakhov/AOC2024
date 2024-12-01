@@ -25,9 +25,18 @@ library AOC2016
                        AOCUtil
   default-language:    Haskell2010
 
+library AOC2024
+  exposed-modules:     Year2024
+  other-modules:       Day01
+  hs-source-dirs:      2024 
+  build-depends:       base, containers, parsec, linear,
+                       parsec3-numbers, split,
+                       AOCUtil
+  default-language:    Haskell2010
+
 executable AOC 
     import:           warnings 
     main-is:          Main.hs
     build-depends:    base, containers,
-                      AOCUtil, AOC2016
+                      AOCUtil, AOC2016, AOC2024
     default-language: Haskell2010

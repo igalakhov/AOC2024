@@ -5,13 +5,14 @@ import Problem (Solution)
 import System.Environment (getArgs)
 import Text.Read (readMaybe)
 import qualified Year2016
+import qualified Year2024
 import Prelude
 
 allSolutions :: Map.Map (Int, Int) Solution
 allSolutions =
   foldr (Map.union) (Map.empty) ((uncurry (Map.mapKeys . (,))) <$> solutionsByYear)
   where
-    solutionsByYear = [(2016, Year2016.solutions)]
+    solutionsByYear = [(2016, Year2016.solutions), (2024, Year2024.solutions)]
 
 main :: IO ()
 main = do
