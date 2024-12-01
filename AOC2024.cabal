@@ -18,7 +18,7 @@ library AOCUtil
 
 library AOC2016
   exposed-modules:     Year2016 
-  other-modules:       Day01, Day02, Day03      
+  other-modules:       Day01, Day02, Day03, Day04
   hs-source-dirs:      2016
   build-depends:       base, containers, parsec, linear,
                        parsec3-numbers, split,
