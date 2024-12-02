@@ -18,7 +18,7 @@ library AOCUtil
 
 library AOC2016
   exposed-modules:     Year2016 
-  other-modules:       Day01, Day02, Day03, Day04, Day05, Day06
+  other-modules:       Day01, Day02, Day03, Day04, Day05, Day06, Day07
   hs-source-dirs:      2016
   build-depends:       base, containers, parsec, linear,
                        parsec3-numbers, split, cryptohash-md5,
@@ -28,7 +28,7 @@ library AOC2016
 
 library AOC2024
   exposed-modules:     Year2024
-  other-modules:       Day01
+  other-modules:       Day01, Day02
   hs-source-dirs:      2024 
   build-depends:       base, containers, parsec, linear,
                        parsec3-numbers, split,
