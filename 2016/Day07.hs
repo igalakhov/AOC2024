@@ -40,7 +40,16 @@ part1 input = sum $ fromEnum . works <$> input
         hasABBA (l:l') = hasABBA l'
         hasABBA _ = False
    
-part2 input = ""
+part2 input = sum $ fromEnum . works <$> input
+    where 
+        works word = let
+            (outside, inside) = partitionEithers word
+            in 
+            (not . Set.null) (Set.intersection 
+                (Set.fromList $ outside >>= triplets)
+                (Set.fromList $ (\(x, y, z) -> (y, z, y)) <$> (inside >>= triplets))
+                )
+        triplets l = [(a, b, c) | (a, b, c) <- zip3 l (drop 1 l) (drop 2 l), a == c && a /= b]
 
 solve :: Solution
 solve = mkSolution parser (part1, part2)
