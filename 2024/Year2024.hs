@@ -15,6 +15,7 @@ import qualified Day12
 import qualified Day13
 import qualified Day14
 import qualified Day18
+import qualified Day19
 import Problem (Solutions)
 
 solutions :: Solutions
@@ -40,7 +41,7 @@ solutions =
         undefined,
         undefined,
         Day18.solve,
-        undefined,
+        Day19.solve,
         undefined,
         undefined,
         undefined,

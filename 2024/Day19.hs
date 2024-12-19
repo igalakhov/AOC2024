@@ -1,4 +1,4 @@
-module Day14 where
+module Day19 where
 
 import Control.Applicative (ZipList (ZipList))
 import Control.Monad
@@ -17,40 +17,40 @@ import Data.Tuple
 import Debug.Trace (trace)
 import GHC.Integer (integerToInt)
 import Grid
-import Linear
 import Problem (Solution, mkSolution)
 import Text.Parsec (anyChar, char, eof, letter, many, many1, newline, oneOf, optional, sepBy, sepBy1, sepEndBy1, space, spaces, string, try, (<|>))
 import Text.Parsec.Number (int)
 import Text.Parsec.Text (Parser)
 import Text.Parsec.Token (GenTokenParser (whiteSpace))
 
-type Input = [(V2 Int, V2 Int)]
-
-w = 101
-h = 103
+type Input = ([String], [String])
 
 parser :: Parser Input
-parser =
-  many $
-    (,)
-      <$> (string "p=" *> pair)
-      <* char ' '
-      <*> (string "v=" *> pair)
-      <* newline
-  where
-    pair = V2 <$> int <* char ',' <*> int
+parser = 
+    (,) <$>
+    (many letter `sepBy` string ", ") 
+    <* newline <* newline <*>
+    (many1 letter `sepEndBy1` spaces)
 
-move n (p, v) =
-  let V2 x y = p + n * v
-   in V2 (x `mod` w) (y `mod` h)
+loeb x = go where go = fmap ($ go) x
 
-part1 = product . map length . group . sort . mapMaybe quadrant . (move 100 <$>)
-  where
-    quadrant (V2 x _) | x == w `div` 2 = Nothing 
-    quadrant (V2 _ y) | y == h `div` 2 = Nothing 
-    quadrant (V2 x y) = Just $ 2*(2*x `div` w) + (2*y `div` h)
+num ps w = (!! 0) . loeb $ map (
+    \idx l -> (
+        if idx == length w then 
+            1 
+        else 
+            sum $ map (\p -> 
+                if p `isPrefixOf` drop idx w then
+                    (l !! (idx + length p))
+                else 
+                    0
+            ) ps 
+    )
+    ) [0..length w]
 
-part2 = listToMaybe . filter ((== 500) . snd) . zip [1..] . (map $ length . nub . (map fst)) . (iterate $ map (\pv -> (move 1 pv, snd pv)))
+part1 (ps, words) = length $ filter ((> 0) . num ps) words     
+
+part2 (ps, words) = sum $ map (num ps) words     
 
 solve :: Solution
 solve = mkSolution parser (part1, part2)
