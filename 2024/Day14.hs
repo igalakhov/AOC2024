@@ -27,6 +27,7 @@ import Text.Parsec.Token (GenTokenParser (whiteSpace))
 type Input = [(V2 Int, V2 Int)]
 
 w = 101
+
 h = 103
 
 parser :: Parser Input
@@ -46,11 +47,11 @@ move n (p, v) =
 
 part1 = product . map length . group . sort . mapMaybe quadrant . (move 100 <$>)
   where
-    quadrant (V2 x _) | x == w `div` 2 = Nothing 
-    quadrant (V2 _ y) | y == h `div` 2 = Nothing 
-    quadrant (V2 x y) = Just $ 2*(2*x `div` w) + (2*y `div` h)
+    quadrant (V2 x _) | x == w `div` 2 = Nothing
+    quadrant (V2 _ y) | y == h `div` 2 = Nothing
+    quadrant (V2 x y) = Just $ 2 * (2 * x `div` w) + (2 * y `div` h)
 
-part2 = listToMaybe . filter ((== 500) . snd) . zip [1..] . (map $ length . nub . (map fst)) . (iterate $ map (\pv -> (move 1 pv, snd pv)))
+part2 = listToMaybe . filter ((== 500) . snd) . zip [1 ..] . (map $ length . nub . (map fst)) . (iterate $ map (\pv -> (move 1 pv, snd pv)))
 
 solve :: Solution
 solve = mkSolution parser (part1, part2)

@@ -11,7 +11,7 @@ import Data.Functor (($>))
 import Data.List
 import Data.List.Split (chunksOf)
 import qualified Data.Map as Map
-import Data.Maybe (catMaybes, isJust, listToMaybe, mapMaybe, isNothing)
+import Data.Maybe (catMaybes, isJust, isNothing, listToMaybe, mapMaybe)
 import qualified Data.Set as Set
 import Data.String (IsString (fromString))
 import Data.Tuple
@@ -47,11 +47,11 @@ search map =
 
 part1 = (length <$>) . search . Set.fromList . take 1024
 
-part2 pts = 
-  fmap (\(_, (x, y)) -> show x ++ "," ++ show y) $ 
-  find (isNothing . fst) $ 
-  (\x -> ((search . Set.fromList) x, last x)) <$>
-  (take <$> [1024 ..] <*> pure pts)
+part2 pts =
+  fmap (\(_, (x, y)) -> show x ++ "," ++ show y) $
+    find (isNothing . fst) $
+      (\x -> ((search . Set.fromList) x, last x))
+        <$> (take <$> [1024 ..] <*> pure pts)
 
 solve :: Solution
 solve = mkSolution parser (part1, part2)

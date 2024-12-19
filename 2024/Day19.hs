@@ -26,31 +26,39 @@ import Text.Parsec.Token (GenTokenParser (whiteSpace))
 type Input = ([String], [String])
 
 parser :: Parser Input
-parser = 
-    (,) <$>
-    (many letter `sepBy` string ", ") 
-    <* newline <* newline <*>
-    (many1 letter `sepEndBy1` spaces)
+parser =
+  (,)
+    <$> (many letter `sepBy` string ", ")
+    <* newline
+    <* newline
+    <*> (many1 letter `sepEndBy1` spaces)
 
 loeb x = go where go = fmap ($ go) x
 
-num ps w = (!! 0) . loeb $ map (
-    \idx l -> (
-        if idx == length w then 
-            1 
-        else 
-            sum $ map (\p -> 
-                if p `isPrefixOf` drop idx w then
-                    (l !! (idx + length p))
-                else 
-                    0
-            ) ps 
-    )
-    ) [0..length w]
+num ps w =
+  (!! 0) . loeb $
+    map
+      ( \idx l ->
+          ( if idx == length w
+              then
+                1
+              else
+                sum $
+                  ( \p ->
+                      if p `isPrefixOf` drop idx w
+                        then
+                          (l !! (idx + length p))
+                        else
+                          0
+                  )
+                    <$> ps
+          )
+      )
+      [0 .. length w]
 
-part1 (ps, words) = length $ filter ((> 0) . num ps) words     
+part1 (ps, words) = length $ filter ((> 0) . num ps) words
 
-part2 (ps, words) = sum $ map (num ps) words     
+part2 (ps, words) = sum $ map (num ps) words
 
 solve :: Solution
 solve = mkSolution parser (part1, part2)
