@@ -30,10 +30,12 @@ library AOC2024
   exposed-modules:     Year2024
   other-modules:       Day01, Day02, Day03, Day04, Day05, 
                        Day07, Day08, Day09, Day10, 
-                       Day11, Day12, Day13, Day14
+                       Day11, Day12, Day13, Day14,
+                       Day18
   hs-source-dirs:      2024 
   build-depends:       base, containers, parsec, linear,
                        parsec3-numbers, split, array, transformers,
+                       search-algorithms,
                        AOCUtil
   default-language:    Haskell2010
 
