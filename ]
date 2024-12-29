@@ -1,0 +1,40 @@
+module Day23 where
+
+import Problem
+import Text.Parsec
+import Text.Parsec.Number
+import Text.Parsec.Text
+import qualified Data.Map as Map
+import qualified Data.Set as Set
+import Data.List
+import Control.Monad
+
+type Input = Map.Map String [String]
+
+parser :: Parser Input
+parser = mkMap <$> many ((,) <$> many letter <* char '-' <*> many letter <* newline)
+    where 
+        mkMap pairs = Map.unionsWith (++) $ pairs >>= (\(f, t) -> [Map.singleton f [t], Map.singleton t [f]])
+
+isClique adj l = all (\v -> all (\w -> v == w || v `elem` adj Map.! w) l) l
+
+part1 adj = 
+    [
+        [v1, v2, v3] |
+        v1 <- Map.keys adj,
+        v2 <- adj Map.! v1,
+        v1 < v2,
+        v3 <- intersect (adj Map.! v1) (adj Map.! v2)
+    ]
+
+    -- let vs = Set.map (\x -> [x]) $ Map.keysSet adj in
+    -- let triplets = filter ((== 3) . length . nub) . Set.toList . Set.map sort $ iterate (Set.map (uncurry (++)) . Set.cartesianProduct vs) vs !! 2 in 
+    -- length .
+    -- filter (any ("t" `isPrefixOf`)) .
+    -- filter (isClique adj) $
+    --     triplets
+
+part2 = id
+
+solve :: Solution
+solve = mkSolution parser (part1, part2)
